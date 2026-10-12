@@ -77,6 +77,9 @@ fn harness(path: &str) -> Harness<'static, PdfCraftApp> {
     let path = path.to_owned();
     let mut h = Harness::builder().with_size(egui::vec2(1400.0, 900.0)).build_eframe(move |_cc| {
         let mut app = PdfCraftApp::new();
+        // The tests find the reload banner by its English text; on a non-English system the
+        // app would follow the system language (i18n::system_lang).
+        app.set_option("language", "en").unwrap();
         app.run_inline = true;
         app.open_path(&path);
         app
